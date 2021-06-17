@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        CustomList<Integer> numbers = new CustomList<>();
+        CustomList<Integer> numbers = new CustomList();
         fillWithNumbers(numbers);
         ListIterator<Integer> iterator = numbers.listIterator();
         printListContent(iterator);

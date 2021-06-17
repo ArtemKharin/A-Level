@@ -70,7 +70,7 @@ public class CustomList<T> implements Collection<T> {
         return new CustomIterator<T>();
     }
 
-    private class CustomIterator<E> implements Iterator<E>{
+    private class CustomIterator<E> implements Iterator<E> {
         int cursor;       // index of next element to return
         int lastRet = -1; // index of last element returned; -1 if no such
 
@@ -88,5 +88,34 @@ public class CustomList<T> implements Collection<T> {
             cursor = i + 1;
             return (E) innerList.get(lastRet = i);
         }
+
+        public boolean hasPrevious() {
+            return lastRet != -1;
+        }
+
+        public E previous() {
+            int i = lastRet;
+            if (!hasPrevious()) {
+                throw new NoSuchElementException();
+            }
+            cursor = i + 1;
+            lastRet -= 1;
+            return (E) innerList.get(i);
+        }
+
+        public int nextIndex() {
+            return cursor;
+        }
+
+        public int previousIndex() {
+            return lastRet;
+        }
+
+        public boolean remove (Object o){
+          return innerList.remove(o);
+        }
+
+
+
     }
 }
