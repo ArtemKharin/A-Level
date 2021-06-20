@@ -1,6 +1,9 @@
 package ua.hw.common;
 
-import java.util.*;
+
+import java.util.Collection;
+import java.util.ListIterator;
+import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {

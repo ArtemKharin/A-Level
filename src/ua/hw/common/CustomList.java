@@ -67,10 +67,14 @@ public class CustomList<T> implements Collection<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return new CustomIterator<T>();
+        return new CustomIterator<>();
     }
 
-    private class CustomIterator<E> implements Iterator<E>{
+    public ListIterator<T> listIterator() {
+        return new CustomIterator<>();
+    }
+
+    private class CustomIterator<E> implements ListIterator<E> {
         int cursor;       // index of next element to return
         int lastRet = -1; // index of last element returned; -1 if no such
 
@@ -80,6 +84,7 @@ public class CustomList<T> implements Collection<T> {
 
         @SuppressWarnings("unchecked")
         public E next() {
+            if (cursor < 0) cursor = lastRet;
             int i = cursor;
             if (i >= size())
                 throw new NoSuchElementException();
@@ -87,6 +92,48 @@ public class CustomList<T> implements Collection<T> {
                 throw new ConcurrentModificationException();
             cursor = i + 1;
             return (E) innerList.get(lastRet = i);
+        }
+
+        public boolean hasPrevious() {
+            return cursor >= 0;
+        }
+
+        @SuppressWarnings("unchecked")
+        public E previous() {
+            if (cursor >= size()) cursor = lastRet;
+            int i = cursor;
+            if (i < 0)
+                throw new NoSuchElementException();
+            cursor = i - 1;
+            return (E) innerList.get(lastRet = i);
+        }
+
+        public int nextIndex() {
+            int i = cursor + 1;
+            if (i >= size()) i = size();
+            if (i >= innerList.size())
+                throw new ConcurrentModificationException();
+            return i;
+        }
+
+        public int previousIndex() {
+            int i = cursor - 1;
+            if (i < 0) i = -1;
+            return i;
+        }
+
+        public void remove() {
+            if (lastRet == cursor)
+                throw new IllegalStateException();
+            innerList.remove(lastRet);
+        }
+
+        @Override
+        public void set(E e) {
+        }
+
+        @Override
+        public void add(E e) {
         }
     }
 }
