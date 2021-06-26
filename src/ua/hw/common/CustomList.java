@@ -126,6 +126,7 @@ public class CustomList<T> implements Collection<T> {
             if (lastRet == cursor)
                 throw new IllegalStateException();
             innerList.remove(lastRet);
+            cursor -= 1;
         }
 
         @Override
